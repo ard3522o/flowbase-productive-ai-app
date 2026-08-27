@@ -297,7 +297,7 @@ export function KanbanPage() {
           <section className="w-full">
             <p className="mb-1 px-1.5 text-[9px] font-bold uppercase tracking-[0.14em] text-slate-400">Plan &amp; track</p>
             <div className="space-y-0.5">
-              <Link href="/" className="group flex w-full items-center gap-2 rounded-lg px-1.5 py-1 text-left text-[12px] font-medium text-slate-500 transition-colors hover:bg-slate-100/80 hover:text-slate-900">
+              <Link href="/" className="group flex w-full items-center gap-2 rounded-lg px-1.5 py-1 text-left text-[12px] font-medium text-slate-500 transition-colors hover:bg-slate-100/80:bg-slate-800/80 hover:text-slate-900:text-slate-100">
                 <span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-violet-100 text-violet-600"><LayoutDashboard className="h-3.5 w-3.5" /></span>
                 <span className="truncate">Dashboard</span>
               </Link>
@@ -355,7 +355,7 @@ export function KanbanPage() {
                 {boards.map((board) => {
                   const isActive = board.id === activeBoardId;
                   return (
-                    <div key={board.id} role="button" tabIndex={0} onClick={() => setActiveBoardId(board.id)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setActiveBoardId(board.id); }} className={`group flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left transition-all ${isActive ? "bg-violet-50 ring-1 ring-violet-200 shadow-sm" : "hover:bg-slate-50"}`}>
+                    <div key={board.id} role="button" tabIndex={0} onClick={() => setActiveBoardId(board.id)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setActiveBoardId(board.id); }} className={`group flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left transition-all ${isActive ? "bg-violet-50 ring-1 ring-violet-200 shadow-sm" : "hover:bg-slate-50:bg-slate-800"}`}>
                       <span className="h-3 w-3 shrink-0 rounded-full ring-2 ring-white" style={{ backgroundColor: board.color }} />
                       <span className={`flex-1 truncate text-[12px] font-medium ${isActive ? "text-violet-900" : "text-slate-600"}`}>{board.name}</span>
                       <button type="button" onClick={(e) => { e.stopPropagation(); openEditBoard(board); }} className="grid h-6 w-6 shrink-0 place-items-center rounded-md text-slate-300 opacity-0 transition-opacity hover:bg-violet-100 hover:text-violet-600 group-hover:opacity-100" title="Edit board"><Pencil className="h-3 w-3" /></button>

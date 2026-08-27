@@ -1,0 +1,22 @@
+CREATE TABLE "user_settings" (
+	"id" varchar(36) PRIMARY KEY NOT NULL,
+	"user_id" text NOT NULL,
+	"display_name" text,
+	"avatar_url" text,
+	"plan" varchar(20) DEFAULT 'free',
+	"plan_status" varchar(20) DEFAULT 'active',
+	"plan_renewal" text,
+	"categories" jsonb DEFAULT '[]'::jsonb,
+	"ai_model" varchar(50) DEFAULT 'gemini-2.5-flash',
+	"ai_tone" varchar(30) DEFAULT 'professional',
+	"ai_features" jsonb DEFAULT '{"refine":true,"assistant":true,"templateBuilder":true}'::jsonb,
+	"theme" varchar(10) DEFAULT 'light',
+	"notifications" jsonb DEFAULT '{"email":true,"push":true,"taskReminders":true,"calendarAlerts":true}'::jsonb,
+	"default_calendar_view" varchar(15) DEFAULT 'month',
+	"default_task_priority" varchar(10) DEFAULT 'medium',
+	"auto_save" boolean DEFAULT true,
+	"data_export" boolean DEFAULT false,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL,
+	CONSTRAINT "user_settings_user_id_unique" UNIQUE("user_id")
+);

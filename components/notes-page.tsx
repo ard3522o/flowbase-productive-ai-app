@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import Link from "next/link";
-import { useEditor, EditorContent } from "@tiptap/react";
+import { EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
@@ -13,7 +13,7 @@ import TaskItem from "@tiptap/extension-task-item";
 import TpLink from "@tiptap/extension-link";
 import { TextStyle } from "@tiptap/extension-text-style";
 import TpColor from "@tiptap/extension-color";
-import { Extension } from "@tiptap/core";
+import { Editor, Extension } from "@tiptap/core";
 import { useAssemblyAIStreaming } from "@/hooks/use-assemblyai-streaming";
 import {
   FileText, Plus, Search, Pin, Trash2, MoreHorizontal,
@@ -160,7 +160,12 @@ export function NotesPage() {
   }, [notes]);
 
   /* ── Editor ── */
-  const editor = useEditor({
+  const editorRef = useRef<Editor | null>(null);
+  const [editor, setEditor] = useState<Editor | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const e = new Editor({
     extensions: [StarterKit.configure({ link: false, underline: false }), PlaceholderExt, HighlightExt, TextAlignExt, TaskList, TaskItemExt, TpLinkExt, TextStyle, TpColor],
     content: active?.content || "",
     editorProps: { attributes: { class: "prose prose-slate max-w-none focus:outline-none min-h-[500px] px-16 py-12 text-[15px] leading-[1.8]" } },
@@ -168,17 +173,19 @@ export function NotesPage() {
       if (!activeId) return;
       setSaveStatus("unsaved");
       const html = ed.getHTML();
-      const text = ed.getText();
-      const titleLine = text.split("\n")[0]?.trim() || "Untitled";
+      const textContent = ed.getText();
+      const titleLine = textContent.split("\n")[0]?.trim() || "Untitled";
       setNotes((prev) => prev.map((n) => n.id === activeId ? { ...n, content: html, updatedAt: Date.now() } : n));
       clearTimeout((window as any).__ns);
       (window as any).__ns = setTimeout(() => setSaveStatus("saved"), 800);
     },
-  });
+    });
+    editorRef.current = e;
+    setEditor(e);
+    return () => { e.destroy(); editorRef.current = null; };
+  }, [activeId]);
 
   /* ── AssemblyAI Streaming ── */
-  const editorRef = useRef(editor);
-  editorRef.current = editor;
   const lastInsertedRef = useRef("");
   const handleTranscript = useCallback((text: string, _endOfTurn: boolean) => {
     const ed = editorRef.current;

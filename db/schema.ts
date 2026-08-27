@@ -112,3 +112,32 @@ export const generatedApps = pgTable("generated_apps", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
+/* ── User Settings ── */
+export const userSettings = pgTable("user_settings", {
+  id: varchar("id", { length: 36 }).primaryKey(),
+  userId: text("user_id").notNull().unique(),
+  /* Profile */
+  displayName: text("display_name"),
+  avatarUrl: text("avatar_url"),
+  /* Subscription */
+  plan: varchar("plan", { length: 20 }).default("free"),
+  planStatus: varchar("plan_status", { length: 20 }).default("active"),
+  planRenewal: text("plan_renewal"),
+  /* Categories */
+  categories: jsonb("categories").default([]),
+  /* AI Settings */
+  aiModel: varchar("ai_model", { length: 50 }).default("gemini-2.5-flash"),
+  aiTone: varchar("ai_tone", { length: 30 }).default("professional"),
+  aiFeatures: jsonb("ai_features").default({ refine: true, assistant: true, templateBuilder: true }),
+  /* Preferences */
+  theme: varchar("theme", { length: 10 }).default("light"),
+  notifications: jsonb("notifications").default({ email: true, push: true, taskReminders: true, calendarAlerts: true }),
+  defaultCalendarView: varchar("default_calendar_view", { length: 15 }).default("month"),
+  defaultTaskPriority: varchar("default_task_priority", { length: 10 }).default("medium"),
+  autoSave: boolean("auto_save").default(true),
+  dataExport: boolean("data_export").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type UserSettings = typeof userSettings.$inferSelect;

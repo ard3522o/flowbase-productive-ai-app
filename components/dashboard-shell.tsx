@@ -2,14 +2,14 @@
 
 import { useState, type ComponentType } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Bell, CalendarDays, CheckCircle2, ChevronDown, Clock3, Columns3, Files, LayoutDashboard, Menu, MoreHorizontal, NotebookPen, PanelLeftClose, PanelLeftOpen, Plus, Presentation, Search, Settings, Sparkles, UsersRound, Wand2 } from "lucide-react";
+import { ArrowUpRight, Bell, CalendarDays, CreditCard, CheckCircle2, ChevronDown, Clock3, Columns3, Files, LayoutDashboard, Menu, MoreHorizontal, NotebookPen, PanelLeftClose, PanelLeftOpen, Plus, Presentation, Search, Settings, Sparkles, UsersRound, Wand2 } from "lucide-react";
 
 type NavigationItem = { label: string; icon: ComponentType<{ className?: string }>; iconClass: string; active?: boolean; href?: string };
 
 const navigationGroups: { label: string; items: NavigationItem[] }[] = [
   { label: "Plan & track", items: [
     { label: "Dashboard", icon: LayoutDashboard, iconClass: "bg-violet-100 text-violet-600", active: true },
-    { label: "AI Assistant", icon: Sparkles, iconClass: "bg-amber-100 text-amber-600" },
+    { label: "AI Assistant", icon: Sparkles, iconClass: "bg-amber-100 text-amber-600", href: "/assistant" },
     { label: "Calendar", icon: CalendarDays, iconClass: "bg-sky-100 text-sky-600", href: "/calendar" },
     { label: "Task / Kanban", icon: Columns3, iconClass: "bg-rose-100 text-rose-600", href: "/kanban" },
   ] },
@@ -19,12 +19,13 @@ const navigationGroups: { label: string; items: NavigationItem[] }[] = [
     { label: "Pages / Spaces", icon: Files, iconClass: "bg-indigo-100 text-indigo-600", href: "/spaces" },
     { label: "AI Template Builder", icon: Wand2, iconClass: "bg-fuchsia-100 text-fuchsia-600", href: "/templates" },
   ] },
-  { label: "Manage", items: [{ label: "Settings", icon: Settings, iconClass: "bg-slate-100 text-slate-600" }] },
+  { label: "Manage", items: [{ label: "Billing", icon: CreditCard, iconClass: "bg-sky-100 text-sky-600", href: "/billing" },
+    { label: "Settings", icon: Settings, iconClass: "bg-slate-100 text-slate-600", href: "/settings" }] },
 ];
 
 function NavItem({ item, collapsed }: { item: NavigationItem; collapsed: boolean }) {
   const Icon = item.icon;
-  const className = `group flex w-full items-center rounded-lg px-1.5 py-1 text-left text-[12px] font-medium transition-colors ${item.active ? "bg-violet-50 text-violet-950 shadow-sm ring-1 ring-violet-100" : "text-slate-500 hover:bg-slate-100/80 hover:text-slate-900"} ${collapsed ? "justify-center" : "gap-2"}`;
+  const className = `group flex w-full items-center rounded-lg px-1.5 py-1 text-left text-[12px] font-medium transition-colors ${item.active ? "bg-violet-50 text-violet-950 shadow-sm ring-1 ring-violet-100" : "text-slate-500 hover:bg-slate-100/80:bg-slate-800/80 hover:text-slate-900:text-slate-100"} ${collapsed ? "justify-center" : "gap-2"}`;
   const content = <>
     <span className={`grid h-6 w-6 shrink-0 place-items-center rounded-md ${item.iconClass}`}><Icon className="h-3.5 w-3.5" /></span>
     {!collapsed && <span className="truncate">{item.label}</span>}

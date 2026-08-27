@@ -189,10 +189,10 @@ export function SpacesPage() {
       <aside className="sticky top-0 flex h-screen w-[228px] shrink-0 flex-col border-r border-slate-200/80 bg-white/95 px-2.5 py-3 backdrop-blur">
         <div className="flex h-9 items-center px-1"><Link href="/" className="flex min-w-0 items-center gap-2.5"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200"><Menu className="h-4 w-4 text-white" /></span><span className="truncate text-[15px] font-bold tracking-tight">Nestwork</span></Link></div>
         <nav className="mt-5 flex-1"><p className="mb-1 px-1.5 text-[9px] font-bold uppercase tracking-[0.14em] text-slate-400">Create & think</p><div className="space-y-0.5">
-          <Link href="/" className="group flex w-full items-center gap-2 rounded-lg px-1.5 py-1 text-[12px] font-medium text-slate-500 hover:bg-slate-100/80 hover:text-slate-900"><span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-violet-100 text-violet-600"><FileText className="h-3.5 w-3.5" /></span><span className="truncate">Dashboard</span></Link>
-          <Link href="/notes" className="group flex w-full items-center gap-2 rounded-lg px-1.5 py-1 text-[12px] font-medium text-slate-500 hover:bg-slate-100/80 hover:text-slate-900"><span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-emerald-100 text-emerald-600"><NotebookPen className="h-3.5 w-3.5" /></span><span className="truncate">Notes</span></Link>
-          <Link href="/kanban" className="group flex w-full items-center gap-2 rounded-lg px-1.5 py-1 text-[12px] font-medium text-slate-500 hover:bg-slate-100/80 hover:text-slate-900"><span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-rose-100 text-rose-600"><Columns3 className="h-3.5 w-3.5" /></span><span className="truncate">Task / Kanban</span></Link>
-          <Link href="/whiteboard" className="group flex w-full items-center gap-2 rounded-lg px-1.5 py-1 text-[12px] font-medium text-slate-500 hover:bg-slate-100/80 hover:text-slate-900"><span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-orange-100 text-orange-600"><Presentation className="h-3.5 w-3.5" /></span><span className="truncate">Whiteboard</span></Link>
+          <Link href="/" className="group flex w-full items-center gap-2 rounded-lg px-1.5 py-1 text-[12px] font-medium text-slate-500 hover:bg-slate-100/80:bg-slate-800/80 hover:text-slate-900:text-slate-100"><span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-violet-100 text-violet-600"><FileText className="h-3.5 w-3.5" /></span><span className="truncate">Dashboard</span></Link>
+          <Link href="/notes" className="group flex w-full items-center gap-2 rounded-lg px-1.5 py-1 text-[12px] font-medium text-slate-500 hover:bg-slate-100/80:bg-slate-800/80 hover:text-slate-900:text-slate-100"><span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-emerald-100 text-emerald-600"><NotebookPen className="h-3.5 w-3.5" /></span><span className="truncate">Notes</span></Link>
+          <Link href="/kanban" className="group flex w-full items-center gap-2 rounded-lg px-1.5 py-1 text-[12px] font-medium text-slate-500 hover:bg-slate-100/80:bg-slate-800/80 hover:text-slate-900:text-slate-100"><span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-rose-100 text-rose-600"><Columns3 className="h-3.5 w-3.5" /></span><span className="truncate">Task / Kanban</span></Link>
+          <Link href="/whiteboard" className="group flex w-full items-center gap-2 rounded-lg px-1.5 py-1 text-[12px] font-medium text-slate-500 hover:bg-slate-100/80:bg-slate-800/80 hover:text-slate-900:text-slate-100"><span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-orange-100 text-orange-600"><Presentation className="h-3.5 w-3.5" /></span><span className="truncate">Whiteboard</span></Link>
           <span className="flex w-full items-center gap-2 rounded-lg bg-indigo-50 px-1.5 py-1 text-[12px] font-semibold text-indigo-950 shadow-sm ring-1 ring-indigo-100"><span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-indigo-100 text-indigo-600"><Folder className="h-3.5 w-3.5" /></span><span className="truncate">Pages / Spaces</span></span>
         </div></nav>
       </aside>
@@ -221,9 +221,9 @@ export function SpacesPage() {
               {!activeSpace && <>
                 <button type="button" onClick={() => setViewMode(viewMode === "grid" ? "list" : "grid")} className="grid h-8 w-8 place-items-center rounded-lg border border-slate-200 bg-white text-slate-400 hover:text-slate-600 transition-colors" title="Toggle view">{viewMode === "grid" ? <List className="h-4 w-4" /> : <Grid3X3 className="h-4 w-4" />}</button>
                 <div className="relative group">
-                  <button type="button" className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><ArrowUpDown className="h-3.5 w-3.5" /> Sort <ChevronDown className="h-3 w-3 text-slate-400" /></button>
+                  <button type="button" className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><ArrowUpDown className="h-3.5 w-3.5" /> Sort <ChevronDown className="h-3 w-3 text-slate-400" /></button>
                   <div className="absolute right-0 top-full mt-1 hidden group-hover:block z-50 w-[180px] rounded-xl border border-slate-200 bg-white p-1.5 shadow-xl">
-                    {[{k:"updated",l:"Recently Updated"},{k:"name",l:"Name"},{k:"pages",l:"Most Pages"},{k:"favorites",l:"Favorites"}].map(s => <button key={s.k} type="button" onClick={() => setSortBy(s.k as typeof sortBy)} className={"flex w-full items-center gap-2 rounded-lg px-3 py-2 text-[12px] font-medium transition-colors " + (sortBy === s.k ? "bg-indigo-50 text-indigo-700" : "text-slate-600 hover:bg-slate-50")}>{sortBy === s.k && <Check className="h-3 w-3" />}{s.l}</button>) }
+                    {[{k:"updated",l:"Recently Updated"},{k:"name",l:"Name"},{k:"pages",l:"Most Pages"},{k:"favorites",l:"Favorites"}].map(s => <button key={s.k} type="button" onClick={() => setSortBy(s.k as typeof sortBy)} className={"flex w-full items-center gap-2 rounded-lg px-3 py-2 text-[12px] font-medium transition-colors " + (sortBy === s.k ? "bg-indigo-50 text-indigo-700" : "text-slate-600 hover:bg-slate-50:bg-slate-800")}>{sortBy === s.k && <Check className="h-3 w-3" />}{s.l}</button>) }
                   </div>
                 </div>
               </>}
@@ -276,7 +276,7 @@ export function SpacesPage() {
             ) : (
               <div className="space-y-1">
                 {filteredSpaces.map(space => (
-                  <div key={space.id} data-spacemenu className="group flex items-center gap-3 rounded-xl border border-transparent bg-white px-3 py-2.5 hover:border-slate-200 hover:bg-slate-50/50 transition-all cursor-pointer" onClick={() => setActiveSpaceId(space.id)}>
+                  <div key={space.id} data-spacemenu className="group flex items-center gap-3 rounded-xl border border-transparent bg-white px-3 py-2.5 hover:border-slate-200 hover:bg-slate-50:bg-slate-800/50 transition-all cursor-pointer" onClick={() => setActiveSpaceId(space.id)}>
                     <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg" style={{ backgroundColor: space.color + "18" }}><Folder className="h-4 w-4" style={{ color: space.color }} /></span>
                     <div className="flex-1 min-w-0">
                       {renameId === space.id ? (
@@ -332,16 +332,16 @@ export function SpacesPage() {
           if (!space) return null;
           return (
             <div data-spacemenu className="fixed z-[100] w-[200px] rounded-xl border border-slate-200 bg-white p-1.5 shadow-2xl" style={{ left: spaceMenu.x, top: spaceMenu.y }}>
-              <button type="button" onClick={() => { startRename(space.id, space.name); setSpaceMenu(null); }} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Pencil className="h-3.5 w-3.5 text-slate-400" /> Rename</button>
-              <button type="button" onClick={() => toggleSpaceFav(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Star className={"h-3.5 w-3.5 " + (space.favorite ? "fill-amber-400 text-amber-400" : "text-slate-400")} /> {space.favorite ? "Unfavorite" : "Favorite"}</button>
-              <button type="button" onClick={() => duplicateSpace(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Copy className="h-3.5 w-3.5 text-slate-400" /> Duplicate</button>
+              <button type="button" onClick={() => { startRename(space.id, space.name); setSpaceMenu(null); }} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Pencil className="h-3.5 w-3.5 text-slate-400" /> Rename</button>
+              <button type="button" onClick={() => toggleSpaceFav(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Star className={"h-3.5 w-3.5 " + (space.favorite ? "fill-amber-400 text-amber-400" : "text-slate-400")} /> {space.favorite ? "Unfavorite" : "Favorite"}</button>
+              <button type="button" onClick={() => duplicateSpace(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Copy className="h-3.5 w-3.5 text-slate-400" /> Duplicate</button>
               <div className="my-1 h-px bg-slate-100" />
               <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">Color</p>
               <div className="flex flex-wrap gap-1.5 px-3 py-1.5">
                 {SPACE_COLORS.map(c => <button key={c} type="button" onClick={() => setSpaceColor(space.id, c)} className={"h-5 w-5 rounded-full ring-2 transition-all " + (space.color === c ? "ring-slate-900 scale-110" : "ring-transparent hover:ring-slate-300")} style={{ backgroundColor: c }} />)}
               </div>
               <div className="my-1 h-px bg-slate-100" />
-              <button type="button" onClick={() => toggleSpaceArchive(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Archive className="h-3.5 w-3.5 text-slate-400" /> {space.archived ? "Unarchive" : "Archive"}</button>
+              <button type="button" onClick={() => toggleSpaceArchive(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Archive className="h-3.5 w-3.5 text-slate-400" /> {space.archived ? "Unarchive" : "Archive"}</button>
               <button type="button" onClick={() => deleteSpace(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-rose-600 hover:bg-rose-50 transition-colors"><Trash2 className="h-3.5 w-3.5" /> Delete</button>
             </div>
           );
@@ -353,16 +353,16 @@ export function SpacesPage() {
           if (!page) return null;
           return (
             <div data-pagemenu className="fixed z-[100] w-[200px] rounded-xl border border-slate-200 bg-white p-1.5 shadow-2xl" style={{ left: pageMenu.x, top: pageMenu.y }}>
-              <button type="button" onClick={() => { startRename(page.id, page.name); setPageMenu(null); }} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Pencil className="h-3.5 w-3.5 text-slate-400" /> Rename</button>
-              <button type="button" onClick={() => togglePageFav(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Star className={"h-3.5 w-3.5 " + (page.favorite ? "fill-amber-400 text-amber-400" : "text-slate-400")} /> {page.favorite ? "Unfavorite" : "Favorite"}</button>
-              <button type="button" onClick={() => duplicatePage(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Copy className="h-3.5 w-3.5 text-slate-400" /> Duplicate</button>
+              <button type="button" onClick={() => { startRename(page.id, page.name); setPageMenu(null); }} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Pencil className="h-3.5 w-3.5 text-slate-400" /> Rename</button>
+              <button type="button" onClick={() => togglePageFav(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Star className={"h-3.5 w-3.5 " + (page.favorite ? "fill-amber-400 text-amber-400" : "text-slate-400")} /> {page.favorite ? "Unfavorite" : "Favorite"}</button>
+              <button type="button" onClick={() => duplicatePage(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Copy className="h-3.5 w-3.5 text-slate-400" /> Duplicate</button>
               <div className="my-1 h-px bg-slate-100" />
               <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">Move to</p>
               {spaces.filter(s => s.id !== page.spaceId && !s.archived).slice(0, 5).map(s => (
-                <button key={s.id} type="button" onClick={() => movePage(page.id, s.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Folder className="h-3.5 w-3.5" style={{ color: s.color }} /> {s.name}</button>
+                <button key={s.id} type="button" onClick={() => movePage(page.id, s.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Folder className="h-3.5 w-3.5" style={{ color: s.color }} /> {s.name}</button>
               ))}
               <div className="my-1 h-px bg-slate-100" />
-              <button type="button" onClick={() => togglePageArchive(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Archive className="h-3.5 w-3.5 text-slate-400" /> {page.archived ? "Unarchive" : "Archive"}</button>
+              <button type="button" onClick={() => togglePageArchive(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Archive className="h-3.5 w-3.5 text-slate-400" /> {page.archived ? "Unarchive" : "Archive"}</button>
               <button type="button" onClick={() => deletePage(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-rose-600 hover:bg-rose-50 transition-colors"><Trash2 className="h-3.5 w-3.5" /> Delete</button>
             </div>
           );
@@ -441,16 +441,16 @@ export function SpacesPage() {
           if (!space) return null;
           return (
             <div data-spacemenu className="fixed z-[100] w-[200px] rounded-xl border border-slate-200 bg-white p-1.5 shadow-2xl" style={{ left: spaceMenu.x, top: spaceMenu.y }}>
-              <button type="button" onClick={() => { startRename(space.id, space.name); setSpaceMenu(null); }} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Pencil className="h-3.5 w-3.5 text-slate-400" /> Rename</button>
-              <button type="button" onClick={() => toggleSpaceFav(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Star className={"h-3.5 w-3.5 " + (space.favorite ? "fill-amber-400 text-amber-400" : "text-slate-400")} /> {space.favorite ? "Unfavorite" : "Favorite"}</button>
-              <button type="button" onClick={() => duplicateSpace(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Copy className="h-3.5 w-3.5 text-slate-400" /> Duplicate</button>
+              <button type="button" onClick={() => { startRename(space.id, space.name); setSpaceMenu(null); }} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Pencil className="h-3.5 w-3.5 text-slate-400" /> Rename</button>
+              <button type="button" onClick={() => toggleSpaceFav(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Star className={"h-3.5 w-3.5 " + (space.favorite ? "fill-amber-400 text-amber-400" : "text-slate-400")} /> {space.favorite ? "Unfavorite" : "Favorite"}</button>
+              <button type="button" onClick={() => duplicateSpace(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Copy className="h-3.5 w-3.5 text-slate-400" /> Duplicate</button>
               <div className="my-1 h-px bg-slate-100" />
               <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">Color</p>
               <div className="flex flex-wrap gap-1.5 px-3 py-1.5">
                 {SPACE_COLORS.map(c => <button key={c} type="button" onClick={() => setSpaceColor(space.id, c)} className={"h-5 w-5 rounded-full ring-2 transition-all " + (space.color === c ? "ring-slate-900 scale-110" : "ring-transparent hover:ring-slate-300")} style={{ backgroundColor: c }} />)}
               </div>
               <div className="my-1 h-px bg-slate-100" />
-              <button type="button" onClick={() => toggleSpaceArchive(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Archive className="h-3.5 w-3.5 text-slate-400" /> {space.archived ? "Unarchive" : "Archive"}</button>
+              <button type="button" onClick={() => toggleSpaceArchive(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Archive className="h-3.5 w-3.5 text-slate-400" /> {space.archived ? "Unarchive" : "Archive"}</button>
               <button type="button" onClick={() => deleteSpace(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-rose-600 hover:bg-rose-50 transition-colors"><Trash2 className="h-3.5 w-3.5" /> Delete</button>
             </div>
           );
@@ -462,16 +462,16 @@ export function SpacesPage() {
           if (!page) return null;
           return (
             <div data-pagemenu className="fixed z-[100] w-[200px] rounded-xl border border-slate-200 bg-white p-1.5 shadow-2xl" style={{ left: pageMenu.x, top: pageMenu.y }}>
-              <button type="button" onClick={() => { startRename(page.id, page.name); setPageMenu(null); }} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Pencil className="h-3.5 w-3.5 text-slate-400" /> Rename</button>
-              <button type="button" onClick={() => togglePageFav(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Star className={"h-3.5 w-3.5 " + (page.favorite ? "fill-amber-400 text-amber-400" : "text-slate-400")} /> {page.favorite ? "Unfavorite" : "Favorite"}</button>
-              <button type="button" onClick={() => duplicatePage(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Copy className="h-3.5 w-3.5 text-slate-400" /> Duplicate</button>
+              <button type="button" onClick={() => { startRename(page.id, page.name); setPageMenu(null); }} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Pencil className="h-3.5 w-3.5 text-slate-400" /> Rename</button>
+              <button type="button" onClick={() => togglePageFav(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Star className={"h-3.5 w-3.5 " + (page.favorite ? "fill-amber-400 text-amber-400" : "text-slate-400")} /> {page.favorite ? "Unfavorite" : "Favorite"}</button>
+              <button type="button" onClick={() => duplicatePage(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Copy className="h-3.5 w-3.5 text-slate-400" /> Duplicate</button>
               <div className="my-1 h-px bg-slate-100" />
               <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">Move to</p>
               {spaces.filter(s => s.id !== page.spaceId && !s.archived).slice(0, 5).map(s => (
-                <button key={s.id} type="button" onClick={() => movePage(page.id, s.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Folder className="h-3.5 w-3.5" style={{ color: s.color }} /> {s.name}</button>
+                <button key={s.id} type="button" onClick={() => movePage(page.id, s.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Folder className="h-3.5 w-3.5" style={{ color: s.color }} /> {s.name}</button>
               ))}
               <div className="my-1 h-px bg-slate-100" />
-              <button type="button" onClick={() => togglePageArchive(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Archive className="h-3.5 w-3.5 text-slate-400" /> {page.archived ? "Unarchive" : "Archive"}</button>
+              <button type="button" onClick={() => togglePageArchive(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Archive className="h-3.5 w-3.5 text-slate-400" /> {page.archived ? "Unarchive" : "Archive"}</button>
               <button type="button" onClick={() => deletePage(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-rose-600 hover:bg-rose-50 transition-colors"><Trash2 className="h-3.5 w-3.5" /> Delete</button>
             </div>
           );
@@ -513,16 +513,16 @@ export function SpacesPage() {
           if (!space) return null;
           return (
             <div data-spacemenu className="fixed z-[100] w-[200px] rounded-xl border border-slate-200 bg-white p-1.5 shadow-2xl" style={{ left: spaceMenu.x, top: spaceMenu.y }}>
-              <button type="button" onClick={() => { startRename(space.id, space.name); setSpaceMenu(null); }} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Pencil className="h-3.5 w-3.5 text-slate-400" /> Rename</button>
-              <button type="button" onClick={() => toggleSpaceFav(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Star className={"h-3.5 w-3.5 " + (space.favorite ? "fill-amber-400 text-amber-400" : "text-slate-400")} /> {space.favorite ? "Unfavorite" : "Favorite"}</button>
-              <button type="button" onClick={() => duplicateSpace(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Copy className="h-3.5 w-3.5 text-slate-400" /> Duplicate</button>
+              <button type="button" onClick={() => { startRename(space.id, space.name); setSpaceMenu(null); }} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Pencil className="h-3.5 w-3.5 text-slate-400" /> Rename</button>
+              <button type="button" onClick={() => toggleSpaceFav(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Star className={"h-3.5 w-3.5 " + (space.favorite ? "fill-amber-400 text-amber-400" : "text-slate-400")} /> {space.favorite ? "Unfavorite" : "Favorite"}</button>
+              <button type="button" onClick={() => duplicateSpace(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Copy className="h-3.5 w-3.5 text-slate-400" /> Duplicate</button>
               <div className="my-1 h-px bg-slate-100" />
               <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">Color</p>
               <div className="flex flex-wrap gap-1.5 px-3 py-1.5">
                 {SPACE_COLORS.map(c => <button key={c} type="button" onClick={() => setSpaceColor(space.id, c)} className={"h-5 w-5 rounded-full ring-2 transition-all " + (space.color === c ? "ring-slate-900 scale-110" : "ring-transparent hover:ring-slate-300")} style={{ backgroundColor: c }} />)}
               </div>
               <div className="my-1 h-px bg-slate-100" />
-              <button type="button" onClick={() => toggleSpaceArchive(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Archive className="h-3.5 w-3.5 text-slate-400" /> {space.archived ? "Unarchive" : "Archive"}</button>
+              <button type="button" onClick={() => toggleSpaceArchive(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Archive className="h-3.5 w-3.5 text-slate-400" /> {space.archived ? "Unarchive" : "Archive"}</button>
               <button type="button" onClick={() => deleteSpace(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-rose-600 hover:bg-rose-50 transition-colors"><Trash2 className="h-3.5 w-3.5" /> Delete</button>
             </div>
           );
@@ -534,16 +534,16 @@ export function SpacesPage() {
           if (!page) return null;
           return (
             <div data-pagemenu className="fixed z-[100] w-[200px] rounded-xl border border-slate-200 bg-white p-1.5 shadow-2xl" style={{ left: pageMenu.x, top: pageMenu.y }}>
-              <button type="button" onClick={() => { startRename(page.id, page.name); setPageMenu(null); }} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Pencil className="h-3.5 w-3.5 text-slate-400" /> Rename</button>
-              <button type="button" onClick={() => togglePageFav(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Star className={"h-3.5 w-3.5 " + (page.favorite ? "fill-amber-400 text-amber-400" : "text-slate-400")} /> {page.favorite ? "Unfavorite" : "Favorite"}</button>
-              <button type="button" onClick={() => duplicatePage(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Copy className="h-3.5 w-3.5 text-slate-400" /> Duplicate</button>
+              <button type="button" onClick={() => { startRename(page.id, page.name); setPageMenu(null); }} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Pencil className="h-3.5 w-3.5 text-slate-400" /> Rename</button>
+              <button type="button" onClick={() => togglePageFav(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Star className={"h-3.5 w-3.5 " + (page.favorite ? "fill-amber-400 text-amber-400" : "text-slate-400")} /> {page.favorite ? "Unfavorite" : "Favorite"}</button>
+              <button type="button" onClick={() => duplicatePage(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Copy className="h-3.5 w-3.5 text-slate-400" /> Duplicate</button>
               <div className="my-1 h-px bg-slate-100" />
               <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">Move to</p>
               {spaces.filter(s => s.id !== page.spaceId && !s.archived).slice(0, 5).map(s => (
-                <button key={s.id} type="button" onClick={() => movePage(page.id, s.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Folder className="h-3.5 w-3.5" style={{ color: s.color }} /> {s.name}</button>
+                <button key={s.id} type="button" onClick={() => movePage(page.id, s.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Folder className="h-3.5 w-3.5" style={{ color: s.color }} /> {s.name}</button>
               ))}
               <div className="my-1 h-px bg-slate-100" />
-              <button type="button" onClick={() => togglePageArchive(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Archive className="h-3.5 w-3.5 text-slate-400" /> {page.archived ? "Unarchive" : "Archive"}</button>
+              <button type="button" onClick={() => togglePageArchive(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Archive className="h-3.5 w-3.5 text-slate-400" /> {page.archived ? "Unarchive" : "Archive"}</button>
               <button type="button" onClick={() => deletePage(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-rose-600 hover:bg-rose-50 transition-colors"><Trash2 className="h-3.5 w-3.5" /> Delete</button>
             </div>
           );
@@ -585,16 +585,16 @@ export function SpacesPage() {
           if (!space) return null;
           return (
             <div data-spacemenu className="fixed z-[100] w-[200px] rounded-xl border border-slate-200 bg-white p-1.5 shadow-2xl" style={{ left: spaceMenu.x, top: spaceMenu.y }}>
-              <button type="button" onClick={() => { startRename(space.id, space.name); setSpaceMenu(null); }} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Pencil className="h-3.5 w-3.5 text-slate-400" /> Rename</button>
-              <button type="button" onClick={() => toggleSpaceFav(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Star className={"h-3.5 w-3.5 " + (space.favorite ? "fill-amber-400 text-amber-400" : "text-slate-400")} /> {space.favorite ? "Unfavorite" : "Favorite"}</button>
-              <button type="button" onClick={() => duplicateSpace(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Copy className="h-3.5 w-3.5 text-slate-400" /> Duplicate</button>
+              <button type="button" onClick={() => { startRename(space.id, space.name); setSpaceMenu(null); }} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Pencil className="h-3.5 w-3.5 text-slate-400" /> Rename</button>
+              <button type="button" onClick={() => toggleSpaceFav(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Star className={"h-3.5 w-3.5 " + (space.favorite ? "fill-amber-400 text-amber-400" : "text-slate-400")} /> {space.favorite ? "Unfavorite" : "Favorite"}</button>
+              <button type="button" onClick={() => duplicateSpace(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Copy className="h-3.5 w-3.5 text-slate-400" /> Duplicate</button>
               <div className="my-1 h-px bg-slate-100" />
               <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">Color</p>
               <div className="flex flex-wrap gap-1.5 px-3 py-1.5">
                 {SPACE_COLORS.map(c => <button key={c} type="button" onClick={() => setSpaceColor(space.id, c)} className={"h-5 w-5 rounded-full ring-2 transition-all " + (space.color === c ? "ring-slate-900 scale-110" : "ring-transparent hover:ring-slate-300")} style={{ backgroundColor: c }} />)}
               </div>
               <div className="my-1 h-px bg-slate-100" />
-              <button type="button" onClick={() => toggleSpaceArchive(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Archive className="h-3.5 w-3.5 text-slate-400" /> {space.archived ? "Unarchive" : "Archive"}</button>
+              <button type="button" onClick={() => toggleSpaceArchive(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Archive className="h-3.5 w-3.5 text-slate-400" /> {space.archived ? "Unarchive" : "Archive"}</button>
               <button type="button" onClick={() => deleteSpace(space.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-rose-600 hover:bg-rose-50 transition-colors"><Trash2 className="h-3.5 w-3.5" /> Delete</button>
             </div>
           );
@@ -606,16 +606,16 @@ export function SpacesPage() {
           if (!page) return null;
           return (
             <div data-pagemenu className="fixed z-[100] w-[200px] rounded-xl border border-slate-200 bg-white p-1.5 shadow-2xl" style={{ left: pageMenu.x, top: pageMenu.y }}>
-              <button type="button" onClick={() => { startRename(page.id, page.name); setPageMenu(null); }} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Pencil className="h-3.5 w-3.5 text-slate-400" /> Rename</button>
-              <button type="button" onClick={() => togglePageFav(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Star className={"h-3.5 w-3.5 " + (page.favorite ? "fill-amber-400 text-amber-400" : "text-slate-400")} /> {page.favorite ? "Unfavorite" : "Favorite"}</button>
-              <button type="button" onClick={() => duplicatePage(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Copy className="h-3.5 w-3.5 text-slate-400" /> Duplicate</button>
+              <button type="button" onClick={() => { startRename(page.id, page.name); setPageMenu(null); }} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Pencil className="h-3.5 w-3.5 text-slate-400" /> Rename</button>
+              <button type="button" onClick={() => togglePageFav(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Star className={"h-3.5 w-3.5 " + (page.favorite ? "fill-amber-400 text-amber-400" : "text-slate-400")} /> {page.favorite ? "Unfavorite" : "Favorite"}</button>
+              <button type="button" onClick={() => duplicatePage(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Copy className="h-3.5 w-3.5 text-slate-400" /> Duplicate</button>
               <div className="my-1 h-px bg-slate-100" />
               <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">Move to</p>
               {spaces.filter(s => s.id !== page.spaceId && !s.archived).slice(0, 5).map(s => (
-                <button key={s.id} type="button" onClick={() => movePage(page.id, s.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Folder className="h-3.5 w-3.5" style={{ color: s.color }} /> {s.name}</button>
+                <button key={s.id} type="button" onClick={() => movePage(page.id, s.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Folder className="h-3.5 w-3.5" style={{ color: s.color }} /> {s.name}</button>
               ))}
               <div className="my-1 h-px bg-slate-100" />
-              <button type="button" onClick={() => togglePageArchive(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"><Archive className="h-3.5 w-3.5 text-slate-400" /> {page.archived ? "Unarchive" : "Archive"}</button>
+              <button type="button" onClick={() => togglePageArchive(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-slate-600 hover:bg-slate-50:bg-slate-800 transition-colors"><Archive className="h-3.5 w-3.5 text-slate-400" /> {page.archived ? "Unarchive" : "Archive"}</button>
               <button type="button" onClick={() => deletePage(page.id)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium text-rose-600 hover:bg-rose-50 transition-colors"><Trash2 className="h-3.5 w-3.5" /> Delete</button>
             </div>
           );

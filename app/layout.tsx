@@ -1,12 +1,12 @@
-import { ClerkProvider } from '@clerk/nextjs';
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import "@excalidraw/excalidraw/index.css";
 import "@liveblocks/react-ui/styles.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Next.js Premium Startup Boilerplate",
-  description: "Created using the ultimate interactive Next.js stack generator CLI.",
+  title: "Nestwork - AI Productivity Workspace",
+  description: "Your all-in-one AI-powered productivity workspace.",
 };
 
 export default function RootLayout({
