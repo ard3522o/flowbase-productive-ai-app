@@ -46,7 +46,7 @@ export function DashboardShell() {
   return <main className="flex min-h-screen bg-[#fbfcff] text-slate-900">
     <aside className={`sticky top-0 flex h-screen shrink-0 flex-col border-r border-slate-200/80 bg-white/95 px-2.5 py-3 backdrop-blur transition-[width] duration-300 ${collapsed ? "w-[68px]" : "w-[228px]"}`}>
       <div className={`flex h-9 items-center ${collapsed ? "justify-center" : "justify-between px-1"}`}>
-        <div className="flex min-w-0 items-center gap-2.5"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200"><Menu className="h-4 w-4 text-white" /></span>{!collapsed && <span className="truncate text-[15px] font-bold tracking-tight">Nestwork</span>}</div>
+        <div className="flex min-w-0 items-center gap-2.5"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-xl shadow-violet-300"><Menu className="h-5 w-5 text-white" /></span>{!collapsed && <span className="truncate text-[17px] font-bold tracking-tight">Flowbase</span>}</div>
         {!collapsed && <button type="button" onClick={() => setCollapsed(true)} aria-label="Collapse sidebar" className="grid h-7 w-7 place-items-center rounded-lg text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"><PanelLeftClose className="h-4 w-4" /></button>}
       </div>
       {collapsed && <button type="button" onClick={() => setCollapsed(false)} aria-label="Expand sidebar" className="mt-3 grid h-8 w-full place-items-center rounded-lg text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"><PanelLeftOpen className="h-4 w-4" /></button>}

@@ -46,7 +46,7 @@ export function BillingPage() {
           </div>
         </div>
         <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm">
-          <div className="mb-6"><h2 className="text-[18px] font-bold">Choose Your Plan</h2><p className="mt-1 text-[13px] text-slate-400">Unlock the full power of Nestwork.</p></div>
+          <div className="mb-6"><h2 className="text-[18px] font-bold">Choose Your Plan</h2><p className="mt-1 text-[13px] text-slate-400">Unlock the full power of Flowbase.</p></div>
           <div className="overflow-hidden rounded-xl"><PricingTable appearance={{ variables: { colorPrimary: "#7C3AED", borderRadius: "16px" } }} newSubscriptionRedirectUrl="/billing" /></div>
         </div>
         <div className="mt-8 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm">

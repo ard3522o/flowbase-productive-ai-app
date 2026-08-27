@@ -76,8 +76,8 @@ export function AssistantPage() {
       <aside className="sticky top-0 flex h-screen w-[228px] shrink-0 flex-col border-r border-slate-200/80 bg-white/95 px-2.5 py-3 backdrop-blur">
         <div className="flex h-9 items-center px-1">
           <Link href="/" className="flex min-w-0 items-center gap-2.5">
-            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200"><Bot className="h-4 w-4 text-white" /></span>
-            <span className="truncate text-[15px] font-bold tracking-tight">Nestwork</span>
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-xl shadow-violet-300"><Bot className="h-5 w-5 text-white" /></span>
+            <span className="truncate text-[17px] font-bold tracking-tight">Flowbase</span>
           </Link>
         </div>
         <div className="mt-4 px-1">

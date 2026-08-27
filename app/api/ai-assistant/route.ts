@@ -7,7 +7,7 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY || "");
 
 type Msg = { role: "user" | "assistant"; content: string };
 
-const SYSTEM_PROMPT = `You are Nestwork AI, a powerful productivity assistant.
+const SYSTEM_PROMPT = `You are Flowbase AI, a powerful productivity assistant.
 
 When the user asks you to CREATE or DO something, respond with an action block AND a friendly message.
 

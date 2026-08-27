@@ -290,7 +290,7 @@ export function KanbanPage() {
             <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200">
               <Menu className="h-4 w-4 text-white" />
             </span>
-            <span className="truncate text-[15px] font-bold tracking-tight">Nestwork</span>
+            <span className="truncate text-[17px] font-bold tracking-tight">Flowbase</span>
           </Link>
         </div>
         <nav className="mt-5 flex flex-1 flex-col gap-4" aria-label="Main navigation">

@@ -83,7 +83,7 @@ export function WhiteboardPage() {
       else { const f = defaultBoard(); setBoards([f]); setActiveId(f.id); }
     } catch { const f = defaultBoard(); setBoards([f]); setActiveId(f.id); }
   }, []);
-  useEffect(() => { if (boards.length) localStorage.setItem("nestwork-wb", JSON.stringify(boards)); }, [boards]);
+  useEffect(() => { if (boards.length) localStorage.setItem("flowbase-wb", JSON.stringify(boards)); }, [boards]);
 
   /* Load board data when active changes */
   useEffect(() => {
@@ -108,7 +108,7 @@ export function WhiteboardPage() {
     setBoards((prev) => prev.map((b) => b.id === activeId ? { ...b, updatedAt: Date.now() } : b));
     if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
     saveTimerRef.current = setTimeout(() => {
-      localStorage.setItem("nestwork-wb-data", JSON.stringify(boardDataRef.current)); fetch("/api/whiteboards", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: activeId, canvasData: boardDataRef.current[activeId] || null, name: boards.find(b=>b.id===activeId)?.name }) }).catch(() => {});
+      localStorage.setItem("flowbase-wb-data", JSON.stringify(boardDataRef.current)); fetch("/api/whiteboards", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: activeId, canvasData: boardDataRef.current[activeId] || null, name: boards.find(b=>b.id===activeId)?.name }) }).catch(() => {});
       setSaveStatus("saved");
     }, 1000);
   }, [activeId]);
@@ -116,7 +116,7 @@ export function WhiteboardPage() {
   /* Load all board data on mount */
   useEffect(() => {
     try {
-      const raw = localStorage.getItem("nestwork-wb-data");
+      const raw = localStorage.getItem("flowbase-wb-data");
       if (raw) {
         const parsed = JSON.parse(raw);
         Object.keys(parsed).forEach(key => {
@@ -208,7 +208,7 @@ export function WhiteboardPage() {
     <main className="flex min-h-screen bg-[#fbfcff] text-slate-900">
       {/* App Sidebar */}
       <aside className="sticky top-0 flex h-screen w-[228px] shrink-0 flex-col border-r border-slate-200/80 bg-white/95 px-2.5 py-3 backdrop-blur">
-        <div className="flex h-9 items-center px-1"><Link href="/" className="flex min-w-0 items-center gap-2.5"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200"><Menu className="h-4 w-4 text-white" /></span><span className="truncate text-[15px] font-bold tracking-tight">Nestwork</span></Link></div>
+        <div className="flex h-9 items-center px-1"><Link href="/" className="flex min-w-0 items-center gap-2.5"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-xl shadow-violet-300"><Menu className="h-5 w-5 text-white" /></span><span className="truncate text-[17px] font-bold tracking-tight">Flowbase</span></Link></div>
         <nav className="mt-5 flex-1"><p className="mb-1 px-1.5 text-[9px] font-bold uppercase tracking-[0.14em] text-slate-400">Create &amp; think</p><div className="space-y-0.5">
           <Link href="/" className="group flex w-full items-center gap-2 rounded-lg px-1.5 py-1 text-[12px] font-medium text-slate-500 hover:bg-slate-100/80:bg-slate-800/80 hover:text-slate-900:text-slate-100"><span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-violet-100 text-violet-600"><FileText className="h-3.5 w-3.5" /></span><span className="truncate">Dashboard</span></Link>
           <Link href="/notes" className="group flex w-full items-center gap-2 rounded-lg px-1.5 py-1 text-[12px] font-medium text-slate-500 hover:bg-slate-100/80:bg-slate-800/80 hover:text-slate-900:text-slate-100"><span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-emerald-100 text-emerald-600"><NotebookPen className="h-3.5 w-3.5" /></span><span className="truncate">Notes</span></Link>

@@ -5,7 +5,7 @@ import "@liveblocks/react-ui/styles.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Nestwork - AI Productivity Workspace",
+  title: "Flowbase - AI Productivity Workspace",
   description: "Your all-in-one AI-powered productivity workspace.",
 };
 

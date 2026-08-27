@@ -57,11 +57,11 @@ export function SettingsPage() {
   
 
   useEffect(() => {
-    const cached = localStorage.getItem("nestwork-settings");
+    const cached = localStorage.getItem("flowbase-settings");
     if (cached) { try { setSettings(JSON.parse(cached)); setLoading(false); } catch {} }
     fetch("/api/settings").then(r => r.json()).then(data => {
       setSettings(data);
-      localStorage.setItem("nestwork-settings", JSON.stringify(data));
+      localStorage.setItem("flowbase-settings", JSON.stringify(data));
       setLoading(false);
     }).catch(() => { if (!cached) setLoading(false); });
   }, []);
@@ -70,9 +70,9 @@ export function SettingsPage() {
     setToast("");
     setSettings(prev => {
       const merged = { ...prev, ...patch };
-      localStorage.setItem("nestwork-settings", JSON.stringify(merged));
+      localStorage.setItem("flowbase-settings", JSON.stringify(merged));
       fetch("/api/settings", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(patch) })
-        .then(r => r.json()).then(d => localStorage.setItem("nestwork-settings", JSON.stringify(d))).catch(() => {});
+        .then(r => r.json()).then(d => localStorage.setItem("flowbase-settings", JSON.stringify(d))).catch(() => {});
       return merged;
     });
     setToast("Saved!");
