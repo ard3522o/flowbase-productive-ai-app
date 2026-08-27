@@ -2,6 +2,7 @@
 
 import { useState, useEffect, type ComponentType } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ArrowUpRight, Bell, CalendarDays, CreditCard, CheckCircle2, ChevronDown, Clock3, Columns3, Files, LayoutDashboard, Menu, MoreHorizontal, NotebookPen, PanelLeftClose, PanelLeftOpen, Plus, Presentation, Search, Settings, Sparkles, UsersRound, Wand2 } from "lucide-react";
 import { UserButton } from "@clerk/nextjs";
 
@@ -37,6 +38,7 @@ function NavItem({ item, collapsed }: { item: NavigationItem; collapsed: boolean
 
 export function DashboardShell() {
   const [collapsed, setCollapsed] = useState(false);
+  const router = useRouter();
   const [dashData, setDashData] = useState<any>(null);
   const [userName, setUserName] = useState("there");
 
@@ -78,7 +80,7 @@ export function DashboardShell() {
     </aside>
 
     <section className="min-w-0 flex-1 px-5 py-5 sm:px-8 lg:px-10">
-      <header className="flex items-center justify-between gap-4"><div className="hidden items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-[12px] text-slate-400 shadow-sm sm:flex"><Search className="h-3.5 w-3.5" /><span>Search anything...</span><kbd className="ml-6 rounded border border-slate-200 px-1.5 py-0.5 text-[10px]">⌘ K</kbd></div><div className="ml-auto flex items-center gap-2"><button type="button" aria-label="Notifications" className="relative grid h-9 w-9 place-items-center rounded-xl border border-slate-200 bg-white text-slate-500 shadow-sm hover:text-violet-600"><Bell className="h-4 w-4" /><span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-rose-500 ring-2 ring-white" /></button><button type="button" className="flex h-9 items-center gap-1.5 rounded-xl bg-violet-600 px-3 text-[12px] font-semibold text-white shadow-lg shadow-violet-200 transition hover:bg-violet-700"><Plus className="h-3.5 w-3.5" /><span className="hidden sm:inline">New</span></button></div></header>
+      <header className="flex items-center justify-between gap-4"><div className="hidden items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-[12px] text-slate-400 shadow-sm sm:flex"><Search className="h-3.5 w-3.5" /><span>Search anything...</span><kbd className="ml-6 rounded border border-slate-200 px-1.5 py-0.5 text-[10px]">⌘ K</kbd></div><div className="ml-auto flex items-center gap-2"><button type="button" aria-label="Notifications" className="relative grid h-9 w-9 place-items-center rounded-xl border border-slate-200 bg-white text-slate-500 shadow-sm hover:text-violet-600"><Bell className="h-4 w-4" /><span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-rose-500 ring-2 ring-white" /></button><button type="button" onClick={() => router.push("/assistant")} className="flex h-9 items-center gap-1.5 rounded-xl bg-violet-600 px-3 text-[12px] font-semibold text-white shadow-lg shadow-violet-200 transition hover:bg-violet-700"><Plus className="h-3.5 w-3.5" /><span className="hidden sm:inline">New</span></button></div></header>
       <div className="mx-auto mt-10 max-w-6xl">
         <div className="flex flex-wrap items-end justify-between gap-5"><div><p className="mb-2 text-[12px] font-semibold text-violet-600">THURSDAY, 27 AUGUST</p><h1 className="text-3xl font-bold tracking-[-0.035em] text-slate-900 sm:text-4xl">Welcome back <span aria-hidden="true">✦</span></h1><p className="mt-2 text-sm text-slate-500">Here is your workspace overview.</p></div><button type="button" className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-[12px] font-semibold text-slate-600 shadow-sm hover:border-violet-200 hover:text-violet-700"><CalendarDays className="h-3.5 w-3.5 text-violet-500" />This week<ChevronDown className="h-3.5 w-3.5 text-slate-400" /></button></div>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{stats.map((stat) => { const Icon = stat.icon; return <article key={stat.label} className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-[0_8px_24px_-18px_rgba(15,23,42,0.3)]"><div className="flex items-start justify-between"><span className={`grid h-8 w-8 place-items-center rounded-xl ${stat.tone}`}><Icon className="h-4 w-4" /></span><MoreHorizontal className="h-4 w-4 text-slate-300" /></div><p className="mt-5 text-[12px] font-medium text-slate-500">{stat.label}</p><p className="mt-0.5 text-xl font-bold tracking-tight text-slate-900">{stat.value}</p><p className="mt-1 text-[11px] text-slate-400">{stat.detail}</p></article>; })}</div>
