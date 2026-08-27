@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import Link from "next/link";
-import { EditorContent } from "@tiptap/react";
+import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
@@ -13,7 +13,7 @@ import TaskItem from "@tiptap/extension-task-item";
 import TpLink from "@tiptap/extension-link";
 import { TextStyle } from "@tiptap/extension-text-style";
 import TpColor from "@tiptap/extension-color";
-import { Editor, Extension } from "@tiptap/core";
+import { Extension } from "@tiptap/core";
 import { useAssemblyAIStreaming } from "@/hooks/use-assemblyai-streaming";
 import {
   FileText, Plus, Search, Pin, Trash2, MoreHorizontal,
@@ -160,12 +160,9 @@ export function NotesPage() {
   }, [notes]);
 
   /* ── Editor ── */
-  const editorRef = useRef<Editor | null>(null);
-  const [editor, setEditor] = useState<Editor | null>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const e = new Editor({
+  const editorRef = useRef<any>(null);
+  const editor = useEditor({
+    immediatelyRender: true,
     extensions: [StarterKit.configure({ link: false, underline: false }), PlaceholderExt, HighlightExt, TextAlignExt, TaskList, TaskItemExt, TpLinkExt, TextStyle, TpColor],
     content: active?.content || "",
     editorProps: { attributes: { class: "prose prose-slate max-w-none focus:outline-none min-h-[500px] px-16 py-12 text-[15px] leading-[1.8]" } },
@@ -179,11 +176,8 @@ export function NotesPage() {
       clearTimeout((window as any).__ns);
       (window as any).__ns = setTimeout(() => setSaveStatus("saved"), 800);
     },
-    });
-    editorRef.current = e;
-    setEditor(e);
-    return () => { e.destroy(); editorRef.current = null; };
-  }, [activeId]);
+  });
+  editorRef.current = editor;
 
   /* ── AssemblyAI Streaming ── */
   const lastInsertedRef = useRef("");
