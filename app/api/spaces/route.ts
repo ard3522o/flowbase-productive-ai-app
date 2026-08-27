@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { requireAuth } from "../_helpers";
 import { spaces, pages } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    const { userId, db } = await requireAuth();
+    const { userId, db } = await requireAuth(req);
     const userSpaces = await db.select().from(spaces).where(eq(spaces.userId, userId));
     const userPages = await db.select().from(pages).where(eq(pages.userId, userId));
     return NextResponse.json({ spaces: userSpaces, pages: userPages });
@@ -15,9 +15,9 @@ export async function GET() {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const { userId, db } = await requireAuth();
+    const { userId, db } = await requireAuth(req);
     const body = await req.json();
     await db.insert(spaces).values({ ...body, userId });
     return NextResponse.json({ ok: true });
@@ -27,9 +27,9 @@ export async function POST(req: Request) {
   }
 }
 
-export async function PUT(req: Request) {
+export async function PUT(req: NextRequest) {
   try {
-    const { userId, db } = await requireAuth();
+    const { userId, db } = await requireAuth(req);
     const body = await req.json();
     const { id, ...updates } = body;
     await db.update(spaces).set({ ...updates, updatedAt: new Date() }).where(eq(spaces.id, id));
@@ -40,9 +40,9 @@ export async function PUT(req: Request) {
   }
 }
 
-export async function DELETE(req: Request) {
+export async function DELETE(req: NextRequest) {
   try {
-    const { userId, db } = await requireAuth();
+    const { userId, db } = await requireAuth(req);
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
     if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });

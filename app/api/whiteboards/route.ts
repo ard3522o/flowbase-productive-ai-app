@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { requireAuth } from "../_helpers";
 import { whiteboards } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    const { userId, db } = await requireAuth();
+    const { userId, db } = await requireAuth(req);
     const result = await db.select().from(whiteboards).where(eq(whiteboards.userId, userId));
     return NextResponse.json(result);
   } catch (e: any) {
@@ -14,9 +14,9 @@ export async function GET() {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const { userId, db } = await requireAuth();
+    const { userId, db } = await requireAuth(req);
     const body = await req.json();
     await db.insert(whiteboards).values({ ...body, userId });
     return NextResponse.json({ ok: true });
@@ -26,9 +26,9 @@ export async function POST(req: Request) {
   }
 }
 
-export async function PUT(req: Request) {
+export async function PUT(req: NextRequest) {
   try {
-    const { userId, db } = await requireAuth();
+    const { userId, db } = await requireAuth(req);
     const body = await req.json();
     const { id, ...updates } = body;
     await db.update(whiteboards).set({ ...updates, updatedAt: new Date() }).where(eq(whiteboards.id, id));
@@ -39,9 +39,9 @@ export async function PUT(req: Request) {
   }
 }
 
-export async function DELETE(req: Request) {
+export async function DELETE(req: NextRequest) {
   try {
-    const { userId, db } = await requireAuth();
+    const { userId, db } = await requireAuth(req);
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
     if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });

@@ -17,7 +17,7 @@ const navigationGroups: { label: string; items: NavigationItem[] }[] = [
     { label: "Notes", icon: NotebookPen, iconClass: "bg-emerald-100 text-emerald-600", href: "/notes" },
     { label: "Whiteboard", icon: Presentation, iconClass: "bg-orange-100 text-orange-600", href: "/whiteboard" },
     { label: "Pages / Spaces", icon: Files, iconClass: "bg-indigo-100 text-indigo-600", href: "/spaces" },
-    { label: "AI Template Builder", icon: Wand2, iconClass: "bg-fuchsia-100 text-fuchsia-600" },
+    { label: "AI Template Builder", icon: Wand2, iconClass: "bg-fuchsia-100 text-fuchsia-600", href: "/templates" },
   ] },
   { label: "Manage", items: [{ label: "Settings", icon: Settings, iconClass: "bg-slate-100 text-slate-600" }] },
 ];

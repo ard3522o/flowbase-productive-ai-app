@@ -93,3 +93,22 @@ export type Note = typeof notes.$inferSelect;
 export type Whiteboard = typeof whiteboards.$inferSelect;
 export type Space = typeof spaces.$inferSelect;
 export type Page = typeof pages.$inferSelect;
+export type GeneratedApp = typeof generatedApps.$inferSelect;
+
+
+/* ── AI Generated Apps ── */
+export const generatedApps = pgTable("generated_apps", {
+  id: varchar("id", { length: 36 }).primaryKey(),
+  userId: text("user_id").notNull(),
+  appName: text("app_name").notNull(),
+  description: text("description").default(""),
+  icon: text("icon").default("Sparkles"),
+  color: text("color").default("#7C3AED"),
+  layout: text("layout").default("single-page"),
+  sections: jsonb("sections").default([]),
+  actions: jsonb("actions").default([]),
+  sampleData: jsonb("sample_data").default([]),
+  appData: jsonb("app_data").default({}),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});

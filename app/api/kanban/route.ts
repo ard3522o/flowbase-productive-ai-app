@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { requireAuth } from "../_helpers";
 import { boards, tasks } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    const { userId, db } = await requireAuth();
+    const { userId, db } = await requireAuth(req);
     const userBoards = await db.select().from(boards).where(eq(boards.userId, userId));
     const boardIds = userBoards.map((b) => b.id);
     const userTasks = boardIds.length > 0
@@ -18,9 +18,9 @@ export async function GET() {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const { userId, db } = await requireAuth();
+    const { userId, db } = await requireAuth(req);
     const body = await req.json();
     const { board, taskList } = body;
     await db.insert(boards).values({ ...board, userId });
@@ -34,9 +34,9 @@ export async function POST(req: Request) {
   }
 }
 
-export async function PUT(req: Request) {
+export async function PUT(req: NextRequest) {
   try {
-    const { userId, db } = await requireAuth();
+    const { userId, db } = await requireAuth(req);
     const body = await req.json();
     const { board, taskList } = body;
     if (board) {
@@ -56,9 +56,9 @@ export async function PUT(req: Request) {
   }
 }
 
-export async function DELETE(req: Request) {
+export async function DELETE(req: NextRequest) {
   try {
-    const { userId, db } = await requireAuth();
+    const { userId, db } = await requireAuth(req);
     const { searchParams } = new URL(req.url);
     const boardId = searchParams.get("id");
     if (!boardId) return NextResponse.json({ error: "Missing board id" }, { status: 400 });
