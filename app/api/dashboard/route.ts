@@ -1,12 +1,18 @@
 import { NextResponse } from "next/server";
-import { requireAuth } from "@/app/api/_helpers";
+import { auth } from "@clerk/nextjs/server";
 import { db } from "@/db";
 import { boards, tasks, notes, spaces, whiteboards } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-export async function GET(req: Request) {
+export const dynamic = "force-dynamic";
+
+export async function GET() {
   try {
-    const { userId } = await requireAuth(req as any);
+    const { userId } = await auth();
+
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
     const userBoards = await db.select().from(boards).where(eq(boards.userId, userId));
     const userTasks = await db.select().from(tasks);
@@ -52,7 +58,6 @@ export async function GET(req: Request) {
       })),
     });
   } catch (e: any) {
-    if (e.message === "Unauthorized") return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e.message || "Server error" }, { status: 500 });
   }
 }
