@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import Link from "next/link";
-import { useEditor, EditorContent } from "@tiptap/react";
+import { EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
@@ -13,7 +13,7 @@ import TaskItem from "@tiptap/extension-task-item";
 import TpLink from "@tiptap/extension-link";
 import { TextStyle } from "@tiptap/extension-text-style";
 import TpColor from "@tiptap/extension-color";
-import { Extension } from "@tiptap/core";
+import { Editor, Extension } from "@tiptap/core";
 import { useAssemblyAIStreaming } from "@/hooks/use-assemblyai-streaming";
 import {
   FileText, Plus, Search, Pin, Trash2, MoreHorizontal,
@@ -160,24 +160,37 @@ export function NotesPage() {
   }, [notes]);
 
   /* ── Editor ── */
-  const editorRef = useRef<any>(null);
-  const editor = useEditor({
-    immediatelyRender: true,
-    extensions: [StarterKit.configure({ link: false, underline: false }), PlaceholderExt, HighlightExt, TextAlignExt, TaskList, TaskItemExt, TpLinkExt, TextStyle, TpColor],
-    content: active?.content || "",
-    editorProps: { attributes: { class: "prose prose-slate max-w-none focus:outline-none min-h-[500px] px-16 py-12 text-[15px] leading-[1.8]" } },
-    onUpdate: ({ editor: ed }) => {
-      if (!activeId) return;
-      setSaveStatus("unsaved");
-      const html = ed.getHTML();
-      const textContent = ed.getText();
-      const titleLine = textContent.split("\n")[0]?.trim() || "Untitled";
-      setNotes((prev) => prev.map((n) => n.id === activeId ? { ...n, content: html, updatedAt: Date.now() } : n));
-      clearTimeout((window as any).__ns);
-      (window as any).__ns = setTimeout(() => setSaveStatus("saved"), 800);
-    },
-  });
-  editorRef.current = editor;
+  const containerRef = useRef<HTMLDivElement>(null);
+  const editorRef = useRef<Editor | null>(null);
+  const [editorReady, setEditorReady] = useState(false);
+
+  useEffect(() => {
+    if (!containerRef.current || !active) return;
+    // Destroy previous editor
+    if (editorRef.current) {
+      editorRef.current.destroy();
+      editorRef.current = null;
+    }
+    const e = new Editor({
+      extensions: [StarterKit.configure({ link: false, underline: false }), PlaceholderExt, HighlightExt, TextAlignExt, TaskList, TaskItemExt, TpLinkExt, TextStyle, TpColor],
+      content: active.content || "",
+      editorProps: { attributes: { class: "prose prose-slate max-w-none focus:outline-none min-h-[500px] px-16 py-12 text-[15px] leading-[1.8]" } },
+      onUpdate: ({ editor: ed }) => {
+        if (!activeId) return;
+        setSaveStatus("unsaved");
+        const html = ed.getHTML();
+        const tc = ed.getText();
+        const titleLine = tc.split("\n")[0]?.trim() || "Untitled";
+        setNotes((prev) => prev.map((n) => n.id === activeId ? { ...n, content: html, updatedAt: Date.now() } : n));
+        clearTimeout((window as any).__ns);
+        (window as any).__ns = setTimeout(() => setSaveStatus("saved"), 800);
+      },
+    });
+    e.mount(containerRef.current!);
+    editorRef.current = e;
+    setEditorReady(true);
+    return () => { e.destroy(); editorRef.current = null; setEditorReady(false); };
+  }, [activeId]);
 
   /* ── AssemblyAI Streaming ── */
   const lastInsertedRef = useRef("");
@@ -212,27 +225,27 @@ export function NotesPage() {
   }, [rawStopRecording, liveTranscript]);
 
   /* ── Sync on note change ── */
-  useEffect(() => { if (editor && active) { const cur = editor.getHTML(); if (cur !== active.content) editor.commands.setContent(active.content || ""); } }, [activeId]);
+  useEffect(() => { if (editorReady && active) { const cur = editorRef.current?.getHTML(); if (cur !== active.content) editorRef.current?.commands.setContent(active.content || ""); } }, [activeId]);
 
   /* ── Word count ── */
-  const wordCount = useMemo(() => { if (!editor) return 0; const t = editor.getText(); return t.trim() ? t.trim().split(/\s+/).length : 0; }, [editor?.getJSON()]);
+  const wordCount = useMemo(() => { if (!editorRef.current) return 0; const t = editorRef.current.getText(); return t?.trim() ? t.trim().split(/\s+/).length : 0; }, [editorRef.current?.getJSON()]);
 
   /* ── Slash commands ── */
   useEffect(() => {
-    if (!editor) return;
+    if (!editorRef.current) return;
     const handler = (e: KeyboardEvent) => {
       if (e.key === "/" && !slash.open && !e.ctrlKey && !e.metaKey) {
         setTimeout(() => {
-          const { view } = editor;
+          const { view } = editorRef.current!;
           const { from } = view.state.selection;
           const coords = view.coordsAtPos(from);
           setSlash({ open: true, query: "", top: coords.bottom + 8, left: Math.min(coords.left, window.innerWidth - 260) });
         }, 10);
       }
     };
-    editor.view.dom.addEventListener("keydown", handler);
-    return () => editor.view.dom.removeEventListener("keydown", handler);
-  }, [editor, slash.open]);
+    editorRef.current?.view.dom.addEventListener("keydown", handler);
+    return () => editorRef.current?.view.dom.removeEventListener("keydown", handler);
+  }, [activeId, slash.open]);
 
   /* ── Filter notes ── */
   const filtered = useMemo(() => {
@@ -245,7 +258,7 @@ export function NotesPage() {
   const createNote = () => {
     const n = { ...defaultNote(), color: NOTE_COLORS[Math.floor(Math.random() * NOTE_COLORS.length)].value };
     setNotes((p) => [n, ...p]); setActiveId(n.id); setShowTrash(false);
-    setTimeout(() => editor?.commands.setContent(""), 10);
+    setTimeout(() => editorRef.current?.commands.setContent(""), 10);
   };
   const deleteNote = (id: string) => {
     setNotes((p) => p.map((n) => n.id === id ? { ...n, trashed: true } : n));
@@ -267,9 +280,9 @@ export function NotesPage() {
 
   /* ── AI Refine (mock) ── */
   const aiRefine = (action: typeof AI_OPTIONS[0]) => {
-    if (!editor) return;
-    const { from, to } = editor.state.selection;
-    const text = editor.state.doc.textBetween(from, to);
+    if (!editorRef.current) return;
+    const { from, to } = editorRef.current?.state.selection;
+    const text = editorRef.current?.state.doc.textBetween(from, to);
     if (!text.trim()) return;
     let result = text;
     switch (action.label) {
@@ -278,7 +291,7 @@ export function NotesPage() {
       case "Simplify language": result = text.replace(/(utilize|commence|endeavor|facilitate|implement)/gi, "use"); break;
       default: result = text.charAt(0).toUpperCase() + text.slice(1); break;
     }
-    editor.chain().focus().deleteRange({ from, to }).insertContent(result).run();
+    editorRef.current?.chain().focus().deleteRange({ from, to }).insertContent(result).run();
     setAiMenu(false);
   };
 
@@ -340,7 +353,7 @@ export function NotesPage() {
         {active ? (
           <div className="flex items-center justify-between border-b border-slate-100 px-8 py-3 bg-white">
             <div className="flex items-center gap-3">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-500">Editing</span><input value={active.title} onChange={(e) => renameNote(activeId!, e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") editor?.commands.focus(); }} className="border-none bg-transparent text-[18px] font-bold text-slate-800 outline-none placeholder:text-slate-300 w-[300px]" placeholder="Untitled" />
+              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-500">Editing</span><input value={active.title} onChange={(e) => renameNote(activeId!, e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") editorRef.current?.commands.focus(); }} className="border-none bg-transparent text-[18px] font-bold text-slate-800 outline-none placeholder:text-slate-300 w-[300px]" placeholder="Untitled" />
               <div className="flex items-center gap-1">{NOTE_COLORS.map((c) => (<button key={c.value} type="button" onClick={() => setNoteColor(activeId!, c.value)} title={c.name} className={`h-4 w-4 rounded-full border-2 transition-transform ${active.color === c.value ? "scale-125 border-slate-400" : "border-white hover:scale-110"}`} style={{ backgroundColor: c.value === "#ffffff" ? "#e2e8f0" : c.value }} />))}</div>
             </div>
             <div className="flex items-center gap-3 text-[11px]">
@@ -356,28 +369,28 @@ export function NotesPage() {
         ) : null}
 
         {/* Toolbar */}
-        {editor && active && (
+        {editorReady && active && (
           <div className="flex items-center gap-1 border-b border-slate-100 px-8 py-1.5 bg-white/80 flex-wrap">
-            {[{ icon: Bold, act: editor.isActive("bold"), fn: () => editor.chain().focus().toggleBold().run() },
-              { icon: Italic, act: editor.isActive("italic"), fn: () => editor.chain().focus().toggleItalic().run() },
-              { icon: UnderlineIcon, act: editor.isActive("underline"), fn: () => editor.chain().focus().toggleUnderline().run() },
-              { icon: Strikethrough, act: editor.isActive("strike"), fn: () => editor.chain().focus().toggleStrike().run() },
-              { icon: Highlighter, act: editor.isActive("highlight"), fn: () => editor.chain().focus().toggleHighlight().run() },
+            {[{ icon: Bold, act: editorRef.current?.isActive("bold"), fn: () => editorRef.current?.chain().focus().toggleBold().run() },
+              { icon: Italic, act: editorRef.current?.isActive("italic"), fn: () => editorRef.current?.chain().focus().toggleItalic().run() },
+              { icon: UnderlineIcon, act: editorRef.current?.isActive("underline"), fn: () => editorRef.current?.chain().focus().toggleUnderline().run() },
+              { icon: Strikethrough, act: editorRef.current?.isActive("strike"), fn: () => editorRef.current?.chain().focus().toggleStrike().run() },
+              { icon: Highlighter, act: editorRef.current?.isActive("highlight"), fn: () => editorRef.current?.chain().focus().toggleHighlight().run() },
             ].map(({ icon: I, act, fn }, i) => (<button key={i} type="button" onClick={fn} className={`grid h-7 w-7 place-items-center rounded-lg transition-colors ${act ? "bg-violet-100 text-violet-600" : "text-slate-400 hover:bg-slate-100 hover:text-slate-600"}`}><I className="h-3.5 w-3.5" /></button>))}
             <div className="mx-1 h-5 w-px bg-slate-200" />
-            {[{ icon: Heading1, act: editor.isActive("heading", { level: 1 }), fn: () => editor.chain().focus().toggleHeading({ level: 1 }).run() },
-              { icon: Heading2, act: editor.isActive("heading", { level: 2 }), fn: () => editor.chain().focus().toggleHeading({ level: 2 }).run() },
-              { icon: Heading3, act: editor.isActive("heading", { level: 3 }), fn: () => editor.chain().focus().toggleHeading({ level: 3 }).run() },
+            {[{ icon: Heading1, act: editorRef.current?.isActive("heading", { level: 1 }), fn: () => editorRef.current?.chain().focus().toggleHeading({ level: 1 }).run() },
+              { icon: Heading2, act: editorRef.current?.isActive("heading", { level: 2 }), fn: () => editorRef.current?.chain().focus().toggleHeading({ level: 2 }).run() },
+              { icon: Heading3, act: editorRef.current?.isActive("heading", { level: 3 }), fn: () => editorRef.current?.chain().focus().toggleHeading({ level: 3 }).run() },
             ].map(({ icon: I, act, fn }, i) => (<button key={i} type="button" onClick={fn} className={`grid h-7 w-7 place-items-center rounded-lg transition-colors ${act ? "bg-violet-100 text-violet-600" : "text-slate-400 hover:bg-slate-100 hover:text-slate-600"}`}><I className="h-3.5 w-3.5" /></button>))}
             <div className="mx-1 h-5 w-px bg-slate-200" />
-            {[{ icon: List, act: editor.isActive("bulletList"), fn: () => editor.chain().focus().toggleBulletList().run() },
-              { icon: ListOrdered, act: editor.isActive("orderedList"), fn: () => editor.chain().focus().toggleOrderedList().run() },
-              { icon: CheckSquare, act: editor.isActive("taskList"), fn: () => editor.chain().focus().toggleTaskList().run() },
-              { icon: Quote, act: editor.isActive("blockquote"), fn: () => editor.chain().focus().toggleBlockquote().run() },
-              { icon: Code, act: editor.isActive("codeBlock"), fn: () => editor.chain().focus().toggleCodeBlock().run() },
+            {[{ icon: List, act: editorRef.current?.isActive("bulletList"), fn: () => editorRef.current?.chain().focus().toggleBulletList().run() },
+              { icon: ListOrdered, act: editorRef.current?.isActive("orderedList"), fn: () => editorRef.current?.chain().focus().toggleOrderedList().run() },
+              { icon: CheckSquare, act: editorRef.current?.isActive("taskList"), fn: () => editorRef.current?.chain().focus().toggleTaskList().run() },
+              { icon: Quote, act: editorRef.current?.isActive("blockquote"), fn: () => editorRef.current?.chain().focus().toggleBlockquote().run() },
+              { icon: Code, act: editorRef.current?.isActive("codeBlock"), fn: () => editorRef.current?.chain().focus().toggleCodeBlock().run() },
             ].map(({ icon: I, act, fn }, i) => (<button key={i} type="button" onClick={fn} className={`grid h-7 w-7 place-items-center rounded-lg transition-colors ${act ? "bg-violet-100 text-violet-600" : "text-slate-400 hover:bg-slate-100 hover:text-slate-600"}`}><I className="h-3.5 w-3.5" /></button>))}
             <div className="mx-1 h-5 w-px bg-slate-200" />
-            <button type="button" onClick={() => editor.chain().focus().clearNodes().unsetAllMarks().run()} className="grid h-7 w-7 place-items-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors"><Eraser className="h-3.5 w-3.5" /><div className="mx-1 h-5 w-px bg-slate-200" /><button type="button" onClick={() => setAiMenu(!aiMenu)} className="inline-flex items-center gap-1 rounded-lg bg-gradient-to-r from-violet-500 to-indigo-500 px-2.5 py-1.5 text-[11px] font-bold text-white hover:from-violet-600 hover:to-indigo-600 transition-all ml-1"><Sparkles className="h-3 w-3" /> AI Refine</button></button>
+            <button type="button" onClick={() => editorRef.current?.chain().focus().clearNodes().unsetAllMarks().run()} className="grid h-7 w-7 place-items-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors"><Eraser className="h-3.5 w-3.5" /><div className="mx-1 h-5 w-px bg-slate-200" /><button type="button" onClick={() => setAiMenu(!aiMenu)} className="inline-flex items-center gap-1 rounded-lg bg-gradient-to-r from-violet-500 to-indigo-500 px-2.5 py-1.5 text-[11px] font-bold text-white hover:from-violet-600 hover:to-indigo-600 transition-all ml-1"><Sparkles className="h-3 w-3" /> AI Refine</button></button>
           </div>
         )}
         {/* Live Transcript Preview */}
@@ -392,9 +405,9 @@ export function NotesPage() {
           </div>
         )}
         {/* Editor Content */}
-        <div className="flex-1 overflow-y-auto bg-white" onClick={() => editor?.commands.focus()}>
+        <div className="flex-1 overflow-y-auto bg-white" onClick={() => editorRef.current?.commands.focus()}>
           {active ? (
-            <div className="mx-auto max-w-[800px]"><EditorContent editor={editor} /></div>
+            <div className="mx-auto max-w-[800px]"><div ref={containerRef} className="tiptap-editor" /></div>
           ) : (
             <div className="flex flex-col items-center justify-center h-full text-center">
               <span className="grid h-16 w-16 place-items-center rounded-2xl bg-emerald-100 text-emerald-500"><NotebookPen className="h-8 w-8" /></span>
@@ -419,7 +432,7 @@ export function NotesPage() {
       {/* Slash Command Menu */}
       {slash.open && (
         <div data-slash style={{ position: "fixed", top: slash.top, left: slash.left }} className="z-50">
-          <SlashMenu query={slash.query} onSelect={(item) => { item.cmd(editor!); setSlash({ open: false, query: "", top: 0, left: 0 }); }} onClose={() => setSlash({ open: false, query: "", top: 0, left: 0 })} />
+          <SlashMenu query={slash.query} onSelect={(item) => { item.cmd(editorRef.current!); setSlash({ open: false, query: "", top: 0, left: 0 }); }} onClose={() => setSlash({ open: false, query: "", top: 0, left: 0 })} />
         </div>
       )}
 
