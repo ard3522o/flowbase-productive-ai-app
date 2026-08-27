@@ -209,9 +209,10 @@ function TaskThread({ taskId }: { taskId: string }) {
 
 /* ── Task Composer ── */
 function TaskComposer({ taskId }: { taskId: string }) {
+  const enabled = useLiveblocksEnabled();
+  if (!enabled) return null;
   return (
     <Composer
-      threadId={undefined}
       metadata={{ taskId }}
       className="rounded-xl border border-slate-200"
     />

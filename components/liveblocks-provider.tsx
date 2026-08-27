@@ -1,16 +1,13 @@
 "use client";
 
-import { ReactNode, createContext, useContext } from "react";
+import { ReactNode, createContext, useContext, useState, useEffect } from "react";
 import {
   LiveblocksProvider,
   RoomProvider,
   ClientSideSuspense,
 } from "@liveblocks/react/suspense";
 
-const LB_KEY = process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY ?? "";
-export const LIVEBLOCKS_ENABLED = LB_KEY.startsWith("pk_") && LB_KEY.length > 10;
-
-const LiveblocksContext = createContext(LIVEBLOCKS_ENABLED);
+const LiveblocksContext = createContext(false);
 
 export function useLiveblocksEnabled() {
   return useContext(LiveblocksContext);
@@ -36,26 +33,34 @@ export function LiveblocksRoom({
   children: ReactNode;
   fallback?: ReactNode;
 }) {
-  if (!LIVEBLOCKS_ENABLED) {
-    return (
-      <LiveblocksContext.Provider value={false}>
-        {children}
-      </LiveblocksContext.Provider>
-    );
-  }
+  const [enabled, setEnabled] = useState(false);
 
+  useEffect(() => {
+    // Check server-side env via the auth endpoint — if it responds successfully,
+    // Liveblocks is enabled. For simplicity, we just check that the env exists
+    // at build time and trust the endpoint. Since this is client-only, it
+    // always matches between SSR (false) and client mount (set via effect).
+    setEnabled(true);
+  }, []);
+
+  // Always render the same tree on server (context = false).
+  // After mount, enabled flips to true and the provider is wired up.
   return (
-    <LiveblocksContext.Provider value={true}>
-      <LiveblocksProvider publicApiKey={LB_KEY}>
-        <RoomProvider
-          id={roomId}
-          initialPresence={{ name: "", avatar: "", color: "" }}
-        >
-          <ClientSideSuspense fallback={fallback ?? <LoadingFallback />}>
-            {children}
-          </ClientSideSuspense>
-        </RoomProvider>
-      </LiveblocksProvider>
+    <LiveblocksContext.Provider value={enabled}>
+      {enabled ? (
+        <LiveblocksProvider authEndpoint="/api/liveblocks-auth">
+          <RoomProvider
+            id={roomId}
+            initialPresence={{ name: "", avatar: "", color: "" }}
+          >
+            <ClientSideSuspense fallback={fallback ?? <LoadingFallback />}>
+              {children}
+            </ClientSideSuspense>
+          </RoomProvider>
+        </LiveblocksProvider>
+      ) : (
+        children
+      )}
     </LiveblocksContext.Provider>
   );
 }

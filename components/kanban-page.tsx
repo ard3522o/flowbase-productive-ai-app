@@ -396,7 +396,7 @@ export function KanbanPage() {
                                             <div className={`h-1 w-full rounded-full ${ps.dot} mb-2 opacity-60`} />
                                             <div className="flex items-start justify-between gap-2">
                                               <h4 className="text-[13px] font-semibold text-slate-800 leading-snug">{task.title}</h4>
-                                              <TaskCommentBadge taskId={task.id} />
+                                              <button type="button" onClick={() => { setSelectedTask(task); setTaskDetailOpen(true); }} className="inline-flex items-center gap-1 rounded-md text-slate-300 hover:bg-violet-50 hover:text-violet-500 transition-colors px-1 py-0.5" title="Comments"><MessageSquare className="h-3.5 w-3.5" /><TaskCommentBadge taskId={task.id} /></button>
                                               <button type="button" onClick={() => openEditTask(task)} className="grid h-5 w-5 shrink-0 place-items-center rounded text-slate-300 hover:bg-slate-100 hover:text-slate-500 transition-colors" title="Edit task"><Pencil className="h-3 w-3" /></button>
                                             </div>
                                             {task.description && <p className="mt-1 text-[11px] text-slate-400 line-clamp-2 leading-relaxed">{task.description}</p>}
@@ -441,6 +441,10 @@ export function KanbanPage() {
                       })}
                     </div>
                   </DragDropContext>
+
+                  {/* Task Detail Dialog - must be inside LiveblocksRoom for Composer/Thread */}
+                  <TaskDetailDialog open={taskDetailOpen} onClose={() => { setTaskDetailOpen(false); setSelectedTask(null); }} task={selectedTask} />
+
                 </LiveblocksRoom>
               ) : (
                 <div className="flex flex-col items-center justify-center py-20 text-center">
@@ -555,9 +559,6 @@ export function KanbanPage() {
       </Dialog>
       {/* Share Dialog */}
       <ShareDialog open={shareDialogOpen} onClose={() => setShareDialogOpen(false)} boardName={activeBoard?.name ?? "Board"} />
-
-      {/* Task Detail Dialog */}
-      <TaskDetailDialog open={taskDetailOpen} onClose={() => { setTaskDetailOpen(false); setSelectedTask(null); }} task={selectedTask} />
 
     </main>
   );
