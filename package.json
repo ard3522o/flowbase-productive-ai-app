@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^7.2.3",
+    "@excalidraw/excalidraw": "^0.18.1",
+    "@google/generative-ai": "^0.24.1",
     "@hello-pangea/dnd": "^18.0.1",
     "@liveblocks/client": "^3.24.1",
     "@liveblocks/node": "^3.24.1",
