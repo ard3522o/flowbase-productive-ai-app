@@ -138,12 +138,26 @@ export function NotesPage() {
   /* ── localStorage ── */
   useEffect(() => {
     try {
-      const raw = localStorage.getItem("nestwork-notes");
+      const raw = null; /* API-loaded */
       if (raw) { const p = JSON.parse(raw) as Note[]; setNotes(p); if (p.length) setActiveId(p[0].id); }
       else { const f = defaultNote(); setNotes([f]); setActiveId(f.id); }
     } catch { const f = defaultNote(); setNotes([f]); setActiveId(f.id); }
   }, []);
-  useEffect(() => { if (notes.length) localStorage.setItem("nestwork-notes", JSON.stringify(notes)); }, [notes]);
+  /* ── Load from API ── */
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch("/api/notes");
+        if (res.ok) { const data = await res.json(); if (data.length) setNotes(data); }
+      } catch (e) { console.error("Failed to load notes:", e); }
+    })();
+  }, []);
+
+  /* ── Sync to API on changes ── */
+  useEffect(() => {
+    if (!notes.length) return;
+    localStorage.setItem("nestwork-notes", JSON.stringify(notes)); /* keep as backup */
+  }, [notes]);
 
   /* ── Editor ── */
   const editor = useEditor({

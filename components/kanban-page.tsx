@@ -7,7 +7,7 @@ import { useMyPresence, useUpdateMyPresence } from "@liveblocks/react/suspense";
 import { MessageSquare, Users } from "lucide-react";
 
 import Link from "next/link";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { DragDropContext, Droppable, Draggable, type DropResult } from "@hello-pangea/dnd";
 import {
   CalendarDays,
@@ -135,6 +135,34 @@ export function KanbanPage() {
   const [activeBoardId, setActiveBoardId] = useState<string | null>(() => boards[0]?.id ?? null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [sampleInit, setSampleInit] = useState(false);
+  const syncTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  /* ── API sync helper ── */
+  const syncToAPI = useCallback((boardData: Board[], taskData: Task[]) => {
+    if (syncTimerRef.current) clearTimeout(syncTimerRef.current);
+    syncTimerRef.current = setTimeout(async () => {
+      try {
+        const activeB = boardData.find(b => b.id === activeBoardId);
+        if (activeB) {
+          await fetch("/api/kanban", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ board: activeB, taskList: taskData.filter(t => activeB.columns.some(c => c.id === t.columnId)) }) });
+        }
+      } catch (e) { console.error("API sync failed:", e); }
+    }, 500);
+  }, [activeBoardId]);
+
+  /* ── Load from API on mount ── */
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch("/api/kanban");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.boards?.length) { setBoards(data.boards); setActiveBoardId(data.boards[0].id); }
+          if (data.tasks?.length) setTasks(data.tasks);
+        }
+      } catch (e) { console.error("Failed to load from API:", e); }
+    })();
+  }, []);
   const activeBoard = boards.find((b) => b.id === activeBoardId) ?? null;
 
   if (activeBoard && !sampleInit && activeBoard.columns.length > 0) {
@@ -222,7 +250,14 @@ export function KanbanPage() {
     }
     setTaskDialogOpen(false);
   };
-  const deleteTask = (taskId: string) => setTasks((prev) => prev.filter((t) => t.id !== taskId));
+  const deleteTask = (taskId: string) => {
+    setTasks((prev) => {
+      const updated = prev.filter((t) => t.id !== taskId);
+      const activeB3 = boards.find(b => b.id === activeBoardId);
+      if (activeB3) { const tl = updated.filter(t => activeB3.columns.some(col => col.id === t.columnId)); fetch("/api/kanban", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ board: activeB3, taskList: tl }) }).catch(() => {}); }
+      return updated;
+    });
+  };
   const toggleLabel = (labelName: string) => setTaskForm((prev) => ({ ...prev, labels: prev.labels.includes(labelName) ? prev.labels.filter((l) => l !== labelName) : [...prev.labels, labelName] }));
 
   /* ── Drag & Drop ── */

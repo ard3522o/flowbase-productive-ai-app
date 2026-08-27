@@ -1,0 +1,54 @@
+import { NextResponse } from "next/server";
+import { requireAuth } from "../_helpers";
+import { whiteboards } from "@/db/schema";
+import { eq } from "drizzle-orm";
+
+export async function GET() {
+  try {
+    const { userId, db } = await requireAuth();
+    const result = await db.select().from(whiteboards).where(eq(whiteboards.userId, userId));
+    return NextResponse.json(result);
+  } catch (e: any) {
+    if (e.message === "Unauthorized") return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: e.message }, { status: 500 });
+  }
+}
+
+export async function POST(req: Request) {
+  try {
+    const { userId, db } = await requireAuth();
+    const body = await req.json();
+    await db.insert(whiteboards).values({ ...body, userId });
+    return NextResponse.json({ ok: true });
+  } catch (e: any) {
+    if (e.message === "Unauthorized") return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: e.message }, { status: 500 });
+  }
+}
+
+export async function PUT(req: Request) {
+  try {
+    const { userId, db } = await requireAuth();
+    const body = await req.json();
+    const { id, ...updates } = body;
+    await db.update(whiteboards).set({ ...updates, updatedAt: new Date() }).where(eq(whiteboards.id, id));
+    return NextResponse.json({ ok: true });
+  } catch (e: any) {
+    if (e.message === "Unauthorized") return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: e.message }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: Request) {
+  try {
+    const { userId, db } = await requireAuth();
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+    if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
+    await db.delete(whiteboards).where(eq(whiteboards.id, id));
+    return NextResponse.json({ ok: true });
+  } catch (e: any) {
+    if (e.message === "Unauthorized") return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: e.message }, { status: 500 });
+  }
+}

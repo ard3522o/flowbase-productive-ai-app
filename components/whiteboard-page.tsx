@@ -65,10 +65,20 @@ export function WhiteboardPage() {
 
   const active = boards.find((b) => b.id === activeId) ?? null;
 
+  /* ── Load from API ── */
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch("/api/whiteboards");
+        if (res.ok) { const data = await res.json(); if (data.length) setBoards(data); }
+      } catch (e) { console.error("Failed to load whiteboards:", e); }
+    })();
+  }, []);
+
   /* localStorage */
   useEffect(() => {
     try {
-      const raw = localStorage.getItem("nestwork-wb");
+      const raw = null; /* API-loaded */
       if (raw) { const p = JSON.parse(raw) as Whiteboard[]; setBoards(p); if (p.length) setActiveId(p[0].id); }
       else { const f = defaultBoard(); setBoards([f]); setActiveId(f.id); }
     } catch { const f = defaultBoard(); setBoards([f]); setActiveId(f.id); }
@@ -98,7 +108,7 @@ export function WhiteboardPage() {
     setBoards((prev) => prev.map((b) => b.id === activeId ? { ...b, updatedAt: Date.now() } : b));
     if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
     saveTimerRef.current = setTimeout(() => {
-      localStorage.setItem("nestwork-wb-data", JSON.stringify(boardDataRef.current));
+      localStorage.setItem("nestwork-wb-data", JSON.stringify(boardDataRef.current)); fetch("/api/whiteboards", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: activeId, canvasData: boardDataRef.current[activeId] || null, name: boards.find(b=>b.id===activeId)?.name }) }).catch(() => {});
       setSaveStatus("saved");
     }, 1000);
   }, [activeId]);
